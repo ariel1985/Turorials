@@ -1,0 +1,78 @@
+# Ansible on EC2
+
+## Master set up
+
+Install Ansible in master machine only.
+
+	sudo su -
+	apt upadate
+	apt upgrade 
+	apt install ansible  
+	mkdir ansible
+	
+## Connect to hosts (agents)
+
+Add key from host:
+
+	mkdir .ssh
+	cd .ssh
+
+copy the key content (.pem) from the agent to the `.ssh`
+(look into .ssh folder)
+
+Change permissions to 400
+
+	chmod 400 pptagent.key
+	chmod 400 agent2.key
+
+Make sure you can ssh to client
+
+	ssh ubuntu@35.158.216.75 -i pptagent.key
+	ssh ubuntu@54.93.248.245 -i agent2.key
+
+## Hosts on Ansible machine
+Make sure you can see the hosts in Ansible master machine:  
+
+	cd ansible
+	vim hosts
+
+To connect each machine to master, copy private key from each machine to master .ssh or something like that …
+Edit hosts file - this is an inventory file of all agents connected to master
+
+	[stam]  
+	agent ansible_host=35.158.216.75 ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/pptagent.key ansible_become=true
+	agent2 ansible_host=54.93.248.245 ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/agent2.key ansible_become=true
+
+
+**[stam]** is the group name 
+
+On the agents - install python `apt install python`
+
+## Run command in agents via Ansible
+
+Run the *hostname* command in all agents
+
+	cd ansible
+	ansible -i hosts agent -a "hostname"
+**-a** run command
+**-m** run module
+
+You should see the results:
+ ```bash
+	root@master:~/ansible# ansible -i hosts agent2 -a "hostname"  
+	agent2 | SUCCESS | rc=0 >>  
+	ip-172-31-40-73
+```
+
+Another way: 
+```bash
+	ansible -i "35.158.216.75, " --user ubuntu --private-key=~/.ssh/pptagent.key 35.158.216.75 -a "hostname"
+```
+
+To install nano on all agents do:
+```bash
+	sudo su -
+	cd ansible
+	ansible -i hosts agent --become -m package -a "name=nano"
+```
+This will install nano on all agents listed in the hosts file
