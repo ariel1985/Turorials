@@ -1,0 +1,69 @@
+# Flutter Install on Ubuntu 20  LTS
+
+
+## Android Studio Set Up
+
+Yes, you MUST have Android Studio to run flutter!
+
+### Install Java 
+
+```bash
+sudo apt update
+sudo apt install openjdk-11-jdk
+java --version 
+```
+
+Your output should be:
+
+	openjdk 11.0.14 2022-01-18
+	OpenJDK Runtime Environment (build 11.0.14+9-Ubuntu-0ubuntu2.20.04)
+	OpenJDK 64-Bit Server VM (build 11.0.14+9-Ubuntu-0ubuntu2.20.04, mixed mode, sharing)
+
+
+### Install Android Studio
+Try using snap first to install - it's easier...
+```bash
+sudo snap install android-studio --classic
+```
+Add private key to apt android studio repository and Install android-studio package:
+
+Click ENTER to add repository key
+```bash
+sudo add-apt-repository ppa:maarten-fonville/android-studio
+sudo apt install android-studio
+```
+
+### Android Studio Set up
+
+[Click here for android studio set up tutorial with screenshots ](https://linuxhint.com/install_android_studio_ubuntu/)
+
+## Flutter 
+
+### Install 
+```bash
+sudo snap install flutter --classic
+flutter doctor
+```
+
+
+### VSCode 
+
+You need to have git installed first 
+
+```bash
+sudo apt install git
+```
+
+Install flutter extension 
+For more information : https://docs.flutter.dev/development/tools/vs-code 
+
+Flutter docs: 
+
+https://docs.flutter.dev/get-started/editor 
+
+Flutter on vscode - extension etc...
+https://docs.flutter.dev/development/tools/vs-code
+
+https://docs.flutter.dev/development/tools/vs-code
+
+### Hello World
